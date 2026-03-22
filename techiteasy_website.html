@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechItEasy Group — Digital. Built for Africa.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --white: #F5F2EC;
+    --accent: #E8FF00;
+    --accent2: #FF4D1C;
+    --gray: #1A1A1A;
+    --gray2: #2A2A2A;
+    --muted: #888;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black);
+    padding: 0.6rem 1.5rem;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--white); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 5% 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(232,255,0,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(255,77,28,0.05) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,255,0,0.08);
+    border: 1px solid rgba(232,255,0,0.2);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    width: fit-content;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.1s ease forwards;
+    opacity: 0;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+  .hero h1 .stroke {
+    -webkit-text-stroke: 1px var(--white);
+    color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(245,242,236,0.6);
+    max-width: 520px;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+    opacity: 0;
+    line-height: 1.8;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    animation: fadeUp 0.8s 0.3s ease forwards;
+    opacity: 0;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 1rem 2rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--white); transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--white);
+    padding: 1rem 2rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem; left: 5%;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    animation: fadeUp 1s 0.5s ease forwards;
+    opacity: 0;
+  }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; left: -100%; top: 0;
+    width: 100%; height: 100%;
+    background: var(--accent);
+    animation: slideRight 2s infinite;
+  }
+  @keyframes slideRight { to { left: 100%; } }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 2rem; right: 5%;
+    display: flex; gap: 3rem;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+    opacity: 0;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    display: flex; align-items: center; gap: 2rem;
+    padding: 0 2rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .marquee-item span { color: var(--accent); font-size: 1rem; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 7rem 5%; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .section-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  h2.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .title-accent { color: var(--accent); }
+
+  /* ABOUT */
+  .about { background: var(--gray); position: relative; overflow: hidden; }
+  .about::before {
+    content: 'AFRICA';
+    position: absolute; right: -2rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 15rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.02);
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-left {}
+  .about-body {
+    font-size: 1rem;
+    color: rgba(245,242,236,0.65);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+  }
+  .about-right {}
+  .about-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .about-card {
+    background: var(--gray2);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .about-card:hover { background: #222; }
+  .about-card-icon {
+    width: 40px; height: 40px;
+    background: rgba(232,255,0,0.08);
+    border: 1px solid rgba(232,255,0,0.15);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  .about-card h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .about-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* VISION MISSION */
+  .vm-section {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+  }
+  .vm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 4rem;
+  }
+  .vm-card {
+    background: var(--black);
+    padding: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .vm-card:hover { background: #0f0f0f; }
+  .vm-card-num {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(232,255,0,0.06);
+    position: absolute;
+    top: 1rem; right: 2rem;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  .vm-card-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .vm-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  .vm-card p {
+    font-size: 0.95rem;
+    color: rgba(245,242,236,0.6);
+    line-height: 1.9;
+  }
+
+  /* SERVICES */
+  .services { background: var(--white); color: var(--black); }
+  .services .section-tag { color: var(--accent2); }
+  .services .section-tag::before { background: var(--accent2); }
+  .services-intro {
+    font-size: 1.05rem;
+    color: rgba(10,10,10,0.55);
+    max-width: 550px;
+    line-height: 1.8;
+    margin-bottom: 4rem;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .service-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+    cursor: pointer;
+  }
+  .service-card:hover { background: var(--black); }
+  .service-card:hover .service-num { color: rgba(232,255,0,0.15); }
+  .service-card:hover .service-name { color: var(--white); }
+  .service-card:hover .service-desc { color: rgba(245,242,236,0.5); }
+  .service-card:hover .service-icon { background: rgba(232,255,0,0.1); border-color: rgba(232,255,0,0.2); }
+  .service-card:hover .service-icon span { filter: brightness(10); }
+  .service-card:hover .service-arrow { color: var(--accent); border-color: rgba(232,255,0,0.3); }
+  .service-num {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(10,10,10,0.06);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+    transition: color 0.25s;
+  }
+  .service-icon {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    transition: all 0.25s;
+  }
+  .service-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    transition: color 0.25s;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 0.82rem;
+    color: rgba(10,10,10,0.5);
+    line-height: 1.7;
+    transition: color 0.25s;
+    margin-bottom: 1.5rem;
+  }
+  .service-arrow {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    color: rgba(10,10,10,0.4);
+    transition: all 0.25s;
+  }
+
+  /* ASSIST */
+  .assist-section {
+    background: var(--gray);
+    border-top: 1px solid var(--border);
+  }
+  .assist-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .assist-phone {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .phone-frame {
+    width: 260px;
+    height: 520px;
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 40px;
+    background: var(--gray2);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 8px rgba(255,255,255,0.03), 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .phone-notch {
+    width: 80px; height: 24px;
+    background: var(--black);
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto 1rem;
+  }
+  .phone-screen {
+    padding: 0 1rem;
+  }
+  .phone-app-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .phone-app-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .phone-app-icon {
+    width: 28px; height: 28px;
+    background: rgba(232,255,0,0.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+  }
+  .phone-search {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .phone-services-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .phone-service-chips {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    margin-bottom: 1rem;
+  }
+  .chip {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: rgba(232,255,0,0.08);
+    border: 1px solid rgba(232,255,0,0.15);
+    color: var(--accent);
+  }
+  .phone-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 0.75rem;
+    margin-bottom: 0.6rem;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .phone-card-avatar {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(232,255,0,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .phone-card-info { flex: 1; }
+  .phone-card-name {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .phone-card-role { font-size: 0.58rem; color: var(--muted); }
+  .phone-card-rating { font-size: 0.58rem; color: var(--accent); }
+
+  .assist-content {}
+  .assist-features { margin: 2.5rem 0; display: flex; flex-direction: column; gap: 1.5rem; }
+  .assist-feature {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .assist-feature-icon {
+    width: 40px; height: 40px;
+    background: rgba(232,255,0,0.08);
+    border: 1px solid rgba(232,255,0,0.12);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .assist-feature-text h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .assist-feature-text p {
+    font-size: 0.85rem;
+    color: rgba(245,242,236,0.55);
+    line-height: 1.7;
+  }
+  .app-badges { display: flex; gap: 0.8rem; margin-top: 2rem; }
+  .app-badge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--gray2);
+    border: 1px solid var(--border);
+    padding: 0.7rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--white);
+    transition: border-color 0.2s;
+  }
+  .app-badge:hover { border-color: rgba(232,255,0,0.3); }
+  .app-badge-icon { font-size: 1.3rem; }
+  .app-badge-text { font-size: 0.7rem; color: var(--muted); }
+  .app-badge-store { font-family: var(--font-display); font-size: 0.85rem; font-weight: 700; }
+
+  /* CONTACT */
+  .contact {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+  }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .contact-left {}
+  .contact-left p {
+    font-size: 1rem;
+    color: rgba(245,242,236,0.55);
+    line-height: 1.9;
+    margin-bottom: 3rem;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .contact-item-icon {
+    width: 36px; height: 36px;
+    background: rgba(232,255,0,0.06);
+    border: 1px solid rgba(232,255,0,0.1);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .contact-item-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .contact-item-value {
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .contact-right {}
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--gray2);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: rgba(232,255,0,0.4); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-group select { appearance: none; cursor: pointer; }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(136,136,136,0.5); }
+  .submit-btn {
+    background: var(--accent);
+    color: var(--black);
+    padding: 1.1rem 2rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+    justify-content: center;
+  }
+  .submit-btn:hover { background: var(--white); transform: translateY(-1px); }
+
+  /* SOCIAL */
+  .social-strip {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 5%;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: var(--gray);
+  }
+  .social-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .social-links { display: flex; gap: 1rem; }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 2rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer p {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--accent); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gray2); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  @media (max-width: 768px) {
+    .about-grid, .vm-grid, .assist-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .about-cards { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .phone-frame { width: 220px; height: 440px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">TechItEasy<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#assist">Assist</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Start a Project</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Douala, Cameroon · Built for Africa</div>
+  <h1>Africa Is Going<br><em>Digital.</em><br>Are You <span class="stroke">Leading?</span></h1>
+  <p class="hero-sub">TechItEasy Group is a full-service Communication, Digital Marketing & Software Development agency — built for the African market, wired for global standards.</p>
+  <div class="hero-actions">
+    <a href="#services" class="btn-primary">Discover What We Do →</a>
+    <a href="#about" class="btn-secondary">Our Story</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">600<span>M+</span></div>
+      <div class="stat-label">African internet users</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8<span>+</span></div>
+      <div class="stat-label">Service offerings</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1<span>st</span></div>
+      <div class="stat-label">Call gets results</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>★</span> Communication <span>★</span> Community Management <span>★</span> Meta & Google Ads <span>★</span> Marketing Consultations <span>★</span> Web & Software Development <span>★</span> Email Marketing <span>★</span> Content Creation <span>★</span> Assist App</div>
+    <div class="marquee-item"><span>★</span> Communication <span>★</span> Community Management <span>★</span> Meta & Google Ads <span>★</span> Marketing Consultations <span>★</span> Web & Software Development <span>★</span> Email Marketing <span>★</span> Content Creation <span>★</span> Assist App</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-left">
+      <div class="section-tag">Who We Are</div>
+      <h2 class="section-title">We Don't Follow<br>Digital Trends.<br><span class="title-accent">We Set Them.</span></h2>
+      <p class="about-body">Born in the economic heart of Cameroon, TechItEasy Group exists to close the digital gap that has held African businesses back for too long. We combine the rigour of world-class communication firms with the agility, affordability and local intelligence that the Cameroonian and African market demands.</p>
+      <p class="about-body">In a market where too many agencies overpromise and underdeliver — we stand on one commitment: real strategies, real execution, real results.</p>
+      <a href="#contact" class="btn-primary" style="margin-top:1.5rem; display:inline-flex;">Work With Us →</a>
+    </div>
+    <div class="about-right">
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-card-icon">🌍</div>
+          <h4>Africa-First Thinking</h4>
+          <p>We don't apply Western templates. We build for the cultural and commercial reality of our market.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">⚡</div>
+          <h4>Agile Execution</h4>
+          <p>Fast, responsive and results-driven. We move at the speed your business needs.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🎯</div>
+          <h4>Measurable Results</h4>
+          <p>Every campaign, every strategy, every line of code is built to deliver numbers you can see.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🤝</div>
+          <h4>True Partnership</h4>
+          <p>We embed ourselves in your growth journey — not just for the campaign, but for the long term.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION MISSION -->
+<section class="vm-section">
+  <div class="section-tag">What Drives Us</div>
+  <h2 class="section-title">Purpose Built for<br><span class="title-accent">Africa's Digital Era</span></h2>
+  <div class="vm-grid">
+    <div class="vm-card">
+      <div class="vm-card-num">01</div>
+      <div class="vm-card-label">Our Mission</div>
+      <h3>To Be the Digital Engine That Powers African Business Growth</h3>
+      <p>We arm businesses across Africa with cutting-edge communication strategies, marketing systems and software tools that generate visibility, build trust and drive measurable revenue. We make world-class digital expertise accessible to every serious business on the continent — from the boutique brand in Akwa to the enterprise in Yaoundé.</p>
+    </div>
+    <div class="vm-card">
+      <div class="vm-card-num">02</div>
+      <div class="vm-card-label">Our Vision</div>
+      <h3>Africa's Most Impactful Tech Agency by 2030</h3>
+      <p>We envision an Africa where local brands compete confidently on the global stage — where a Cameroonian SME wields the same digital sophistication as any multinational. TechItEasy Group will be the agency that made that possible for thousands of businesses. We are not building a company. We are building the digital infrastructure of Africa's next generation of winners.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-tag">What We Do</div>
+  <h2 class="section-title" style="color:var(--black);">Eight Disciplines.<br>One Goal. <span style="color:var(--accent2);">Your Growth.</span></h2>
+  <p class="services-intro">From strategy to execution, we cover every dimension of your digital presence — so you can focus on running your business.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon"><span>📡</span></div>
+      <div class="service-name">Communication</div>
+      <p class="service-desc">Sharp, consistent messaging that makes your brand impossible to ignore — across every channel and audience.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon"><span>👥</span></div>
+      <div class="service-name">Community Management</div>
+      <p class="service-desc">We turn your followers into loyal fans and your online community into your most powerful sales force.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon"><span>🎯</span></div>
+      <div class="service-name">Meta & Google Ads</div>
+      <p class="service-desc">Precision-targeted campaigns that put your brand in front of the right people — and make every franc count.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-icon"><span>💡</span></div>
+      <div class="service-name">Marketing Consultations</div>
+      <p class="service-desc">Your fractional marketing director — without the full-time cost. Strategy, clarity and a roadmap to growth.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-icon"><span>💻</span></div>
+      <div class="service-name">Software & Web Development</div>
+      <p class="service-desc">Fast, scalable, mobile-first websites and custom software that work as hard as you do.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-icon"><span>📧</span></div>
+      <div class="service-name">Email Marketing</div>
+      <p class="service-desc">Automated, personalised campaigns that generate consistent, predictable revenue — on autopilot.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">07</div>
+      <div class="service-icon"><span>✍️</span></div>
+      <div class="service-name">Content Creation & Marketing</div>
+      <p class="service-desc">Content that stops the scroll, builds authority and keeps your audience hungry for more.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card" style="background: #0A0A0A; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:1rem;">
+      <div style="font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; color:#F5F2EC; letter-spacing:-0.02em;">Ready to grow?</div>
+      <p style="font-size:0.8rem; color:rgba(136,136,136,0.8); line-height:1.7; padding:0 1rem;">Let's build a strategy that delivers real results for your business.</p>
+      <a href="#contact" style="background:var(--accent); color:var(--black); padding:0.7rem 1.5rem; font-family:'Syne',sans-serif; font-weight:700; font-size:0.78rem; letter-spacing:0.05em; text-transform:uppercase; border-radius:2px; text-decoration:none; transition:all 0.2s;">Start Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ASSIST -->
+<section class="assist-section" id="assist">
+  <div class="assist-inner">
+    <div class="assist-phone">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-app-bar">
+            <div class="phone-app-logo">Assist</div>
+            <div class="phone-app-icon">🔔</div>
+          </div>
+          <div class="phone-search">🔍  Search for a service...</div>
+          <div class="phone-services-label">Popular Services</div>
+          <div class="phone-service-chips">
+            <div class="chip">Plumbing</div>
+            <div class="chip">Tutoring</div>
+            <div class="chip">Electrical</div>
+            <div class="chip">Fitness</div>
+            <div class="chip">Design</div>
+            <div class="chip">Cleaning</div>
+          </div>
+          <div class="phone-services-label">Top Rated Near You</div>
+          <div class="phone-card">
+            <div class="phone-card-avatar">🔧</div>
+            <div class="phone-card-info">
+              <div class="phone-card-name">Jean-Paul K.</div>
+              <div class="phone-card-role">Master Plumber · Douala</div>
+              <div class="phone-card-rating">★★★★★ 4.9</div>
+            </div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-avatar">📚</div>
+            <div class="phone-card-info">
+              <div class="phone-card-name">Amina N.</div>
+              <div class="phone-card-role">Math Tutor · Akwa</div>
+              <div class="phone-card-rating">★★★★★ 5.0</div>
+            </div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-avatar">💪</div>
+            <div class="phone-card-info">
+              <div class="phone-card-name">Eric B.</div>
+              <div class="phone-card-role">Personal Trainer · Bonanjo</div>
+              <div class="phone-card-rating">★★★★☆ 4.7</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="assist-content">
+      <div class="section-tag">Our Platform</div>
+      <h2 class="section-title">Meet <span class="title-accent">Assist</span> — Your Local Services Ecosystem</h2>
+      <p style="font-size:0.95rem; color:rgba(245,242,236,0.55); line-height:1.9; margin-bottom:1rem;">Finding a reliable professional in Douala should not be a two-hour ordeal. Assist connects you instantly to vetted, trusted local service providers — from plumbers to personal trainers, tutors to designers.</p>
+      <div class="assist-features">
+        <div class="assist-feature">
+          <div class="assist-feature-icon">✅</div>
+          <div class="assist-feature-text">
+            <h4>Verified Professionals Only</h4>
+            <p>Every provider is vetted and reviewed by real users. Zero guesswork, maximum trust.</p>
+          </div>
+        </div>
+        <div class="assist-feature">
+          <div class="assist-feature-icon">⚡</div>
+          <div class="assist-feature-text">
+            <h4>Book in Minutes</h4>
+            <p>Browse, connect and book directly from your phone — faster than any WhatsApp group.</p>
+          </div>
+        </div>
+        <div class="assist-feature">
+          <div class="assist-feature-icon">🗺️</div>
+          <div class="assist-feature-text">
+            <h4>Services Across Cameroon</h4>
+            <p>Home repairs, fitness, education, business services and more — wherever you are.</p>
+          </div>
+        </div>
+      </div>
+      <div class="app-badges">
+        <a href="#" class="app-badge">
+          <div class="app-badge-icon">🍎</div>
+          <div>
+            <div class="app-badge-text">Download on the</div>
+            <div class="app-badge-store">App Store</div>
+          </div>
+        </a>
+        <a href="#" class="app-badge">
+          <div class="app-badge-icon">▶</div>
+          <div>
+            <div class="app-badge-text">Get it on</div>
+            <div class="app-badge-store">Google Play</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-title">Your Next Chapter<br>Starts With One<br><span class="title-accent">Conversation.</span></h2>
+      <p>The businesses winning in Cameroon's digital economy didn't get there by waiting. They made a decision, found the right partner, and started building. That starts here.</p>
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">techiteasy021@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-value">(+237) 650-755-605<br>693-303-265 · 655-637-254</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-value">Douala, Cameroon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Jean-Paul">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Kouam">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@company.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+237 6XX XXX XXX">
+        </div>
+        <div class="form-group">
+          <label>Service Interested In</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Communication</option>
+            <option>Community Management</option>
+            <option>Meta & Google Ads</option>
+            <option>Marketing Consultation</option>
+            <option>Software & Web Development</option>
+            <option>Email Marketing</option>
+            <option>Content Creation & Marketing</option>
+            <option>Assist Platform</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea placeholder="Tell us about your project or challenge..."></textarea>
+        </div>
+        <button class="submit-btn">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL STRIP -->
+<div class="social-strip">
+  <span class="social-label">Follow us</span>
+  <div class="social-links">
+    <a href="#" class="social-link">f</a>
+    <a href="#" class="social-link">in</a>
+    <a href="#" class="social-link">𝕏</a>
+    <a href="#" class="social-link">ig</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TechItEasy<span>.</span></div>
+  <p>© 2026 TechItEasy Group. All rights reserved. · <a href="#">Privacy Policy</a> · <a href="#">Terms</a></p>
+  <p style="font-size:0.72rem;">Douala, Cameroon 🇨🇲</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 6 + 'px';
+    cursor.style.top = my - 6 + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx - 20) * 0.12;
+    ry += (my - ry - 20) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(2.5)';
+      ring.style.transform = 'scale(1.5)';
+      ring.style.opacity = '0.25';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'scale(1)';
+      ring.style.transform = 'scale(1)';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.about-card, .service-card, .vm-card, .assist-feature').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
